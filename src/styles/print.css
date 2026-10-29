@@ -1,0 +1,63 @@
+/* ============================================================
+   Print documents. Rendered at #/print/... — the app shell is not
+   mounted there, and @media print hides all controls.
+   ============================================================ */
+.print-toolbar {
+  position: sticky; top: 0; z-index: 5; display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+  padding: 10px 14px; background: var(--surface); border-bottom: 1px solid var(--border);
+}
+.print-toolbar .grow { flex: 1; }
+.print-page-wrap { background: var(--surface-3); min-height: 100%; padding: 16px 8px 40px; }
+.doc {
+  background: #fff; color: #111; max-width: 800px; margin: 0 auto; padding: 32px 36px; box-shadow: var(--shadow-2);
+  font-size: 12.5pt; line-height: 1.45; border-radius: 4px;
+  --doc-line: #cfcfcf;
+}
+@media (max-width: 600px) { .doc { padding: 18px 14px; font-size: 11pt; } }
+.doc h1 { font-size: 20pt; margin: 0 0 4px; color: #111; }
+.doc h2 { font-size: 13pt; margin: 18px 0 6px; padding-bottom: 3px; border-bottom: 1.5px solid #111; color: #111; }
+.doc h3 { font-size: 11.5pt; margin: 12px 0 4px; color: #111; }
+.doc .doc-meta { display: flex; gap: 16px; flex-wrap: wrap; font-size: 10pt; color: #444; margin-bottom: 8px; }
+.doc .doc-meta b { color: #111; }
+.doc .doc-foot { margin-top: 24px; padding-top: 6px; border-top: 1px solid var(--doc-line); font-size: 8.5pt; color: #666; display: flex; justify-content: space-between; gap: 8px; }
+.doc { overflow-x: auto; }
+.doc table { width: 100%; border-collapse: collapse; font-size: 10.5pt; }
+.doc th { text-align: left; font-size: 8.5pt; text-transform: uppercase; letter-spacing: 0.05em; color: #444; border-bottom: 1.5px solid #111; padding: 4px 6px; }
+.doc td { border-bottom: 1px solid var(--doc-line); padding: 5px 6px; vertical-align: top; }
+.doc td.num, .doc th.num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+.doc .box { display: inline-block; width: 13px; height: 13px; border: 1.5px solid #111; border-radius: 2px; vertical-align: middle; }
+.doc .box.checked { background: #111; }
+.doc ol.doc-steps { padding-left: 1.4em; display: grid; gap: 6px; }
+.doc ol.doc-steps li { padding-left: 4px; }
+.doc ul.doc-ings { list-style: none; padding: 0; columns: 2; column-gap: 24px; }
+.doc ul.doc-ings li { break-inside: avoid; padding: 3px 0; border-bottom: 1px dotted var(--doc-line); }
+.doc .two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 24px; }
+.doc .note { font-size: 10pt; color: #333; }
+.doc .muted { color: #555; }
+.doc .group { break-inside: avoid; page-break-inside: avoid; }
+.doc .week-table td { font-size: 9.5pt; }
+.doc .week-table td.day { font-weight: 700; white-space: nowrap; width: 80px; }
+.doc .total-row td { font-weight: 700; border-top: 1.5px solid #111; border-bottom: 0; }
+.doc .lines { display: grid; gap: 14px; margin-top: 6px; }
+.doc .lines span { display: block; border-bottom: 1px solid var(--doc-line); height: 14px; }
+@media (max-width: 600px) { .doc ul.doc-ings { columns: 1; } .doc .two-col { grid-template-columns: 1fr; } }
+
+@page { size: A4; margin: 14mm 12mm; }
+
+@media print {
+  html, body, #root { height: auto !important; background: #fff !important; }
+  body { font-size: 11pt; color: #000; }
+  .no-print, .print-toolbar, .sidebar, .topbar, .bottomnav, .toasts, .drawer, .drawer-backdrop, button, .btn, .icon-btn { display: none !important; }
+  .print-page-wrap { background: #fff !important; padding: 0 !important; }
+  .doc { overflow: visible !important; box-shadow: none !important; padding: 0 !important; max-width: none !important; margin: 0 !important; border-radius: 0; }
+  .doc ul.doc-ings { columns: 2 !important; }
+  .doc .two-col { grid-template-columns: 1fr 1fr !important; }
+  tr, li, .group, .doc-steps li { break-inside: avoid; page-break-inside: avoid; }
+  thead { display: table-header-group; }
+  h1, h2, h3 { break-after: avoid; page-break-after: avoid; }
+  a { color: #000; text-decoration: none; }
+  /* If someone prints a normal app page, still give a clean result. */
+  .shell { display: block !important; }
+  .main { overflow: visible !important; padding: 0 !important; }
+  .card { box-shadow: none !important; border-color: #bbb !important; break-inside: avoid; }
+}
